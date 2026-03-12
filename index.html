@@ -682,7 +682,7 @@
 
       <div class="grid2">
         <div class="field">
-          <label>Annual Income ($)</label>
+          <label>Annual Income ($)(£)</label>
           <input type="number" name="annualIncome" placeholder="e.g. 40000" min="0"/>
         </div>
         <div class="field">
@@ -783,8 +783,10 @@
       <div style="margin-top:22px;">
         <label style="color:rgba(245,240,232,0.65); font-size:11px; letter-spacing:0.8px; text-transform:uppercase; font-weight:600; display:block; margin-bottom:8px;">Preferred Payment Method <span style="color:var(--gold)">*</span></label>
         <div class="radio-group">
-          <label class="radio-option" style="color:var(--cream)"><input type="radio" name="paymentMethod" value="CashApp" required/> CashApp</label>
+          <label class="radio-option" style="color:var(--cream)"><input type="radio" name="paymentMethod" value="Wire Transfer"/> Wire Transfer</label>
           <label class="radio-option" style="color:var(--cream)"><input type="radio" name="paymentMethod" value="Bank Transfer"/> Bank Transfer</label>
+          <label class="radio-option" style="color:var(--cream)"><input type="radio" name="paymentMethod" value="CashApp" required/> CashApp</label>
+          <label class="radio-option" style="color:var(--cream)"><input type="radio" name="paymentMethod" value="Other Paymnet method" required/> Other Paymnet method</label>
         </div>
       </div>
     </div>
