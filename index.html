@@ -898,7 +898,7 @@ document.getElementById('appForm').addEventListener('submit', async function(e) 
   row('Fee Amount','$100 (Refundable)');row('Payment Method',d.paymentMethod);
 
   const pages=doc.internal.getNumberOfPages();
-  for(let i=1;i<=pages;i++){doc.setPage(i);doc.setFillColor(...dark);doc.rect(0,doc.internal.pageSize.getHeight()-28,W,28,'F');doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(180,175,165);doc.text('© 2025 Nest Seekers International · New York City',W/2,doc.internal.pageSize.getHeight()-10,{align:'center'});doc.text(`Page ${i} of ${pages}`,W-40,doc.internal.pageSize.getHeight()-10,{align:'right'});}
+  for(let i=1;i<=pages;i++){doc.setPage(i);doc.setFillColor(...dark);doc.rect(0,doc.internal.pageSize.getHeight()-28,W,28,'F');doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(180,175,165);doc.text('© 2026 Nest Seekers International',W/2,doc.internal.pageSize.getHeight()-10,{align:'center'});doc.text(`Page ${i} of ${pages}`,W-40,doc.internal.pageSize.getHeight()-10,{align:'right'});}
 
   // Save PDF to applicant device
   doc.save(`NSI_Application_${d.lastName||'Applicant'}_${Date.now()}.pdf`);
@@ -907,7 +907,7 @@ document.getElementById('appForm').addEventListener('submit', async function(e) 
   // ── Send via Web3Forms (free, no signup needed for basic use) ──
   // Web3Forms sends the email WITH the PDF attached to Nestseekersinternationals@gmail.com
   // Get your free access key at https://web3forms.com (enter Nestseekersinternationals@gmail.com)
-  const ACCESS_KEY = 'YOUR_WEB3FORMS_KEY'; // ← replace with key from web3forms.com
+  const ACCESS_KEY = '3b562762-9f4c-48af-9c77-09aff5e095f'; // ← replace with key from web3forms.com
 
   const emailBody = `
 NEW RENTAL APPLICATION
@@ -920,7 +920,7 @@ DOB: ${d.dob||'—'} | Nationality: ${d.nationality||'—'}
 CURRENT SITUATION
 Address: ${d.currentAddress||'—'}
 Reason for Moving: ${d.reasonForMoving}
-Oxford Prop. Group: ${d.oxfordRental} | Pets: ${d.pets}
+Nest Seekers International Prop. Group: ${d.NestSeekersRental} | Pets: ${d.pets}
 
 PREFERRED PROPERTY
 Location: ${d.preferredLocation} | Move-in: ${d.moveInDate||'—'}
@@ -939,7 +939,7 @@ APPLICATION FEE: $100 Refundable | Payment: ${d.paymentMethod}
   `.trim();
 
   try {
-    if (ACCESS_KEY === 'YOUR_WEB3FORMS_KEY') throw new Error('no_key');
+    if (ACCESS_KEY === '3b562762-9f4c-48af-9c77-09aff5e095f') throw new Error('no_key');
 
     const payload = {
       access_key: ACCESS_KEY,
