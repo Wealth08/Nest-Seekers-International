@@ -895,7 +895,7 @@ document.getElementById('appForm').addEventListener('submit', async function(e) 
   y+=8;sh('Tenancy History');
   row('Ever Evicted',d.evicted);row('In Debt to Landlord',d.inDebt);row('Previous Landlord',d.prevLandlord||'—');row('Notes',d.notes||'—');
   y+=8;sh('Application Fee');
-  row('Fee Amount','$50 (Refundable)');row('Payment Method',d.paymentMethod);
+  row('Fee Amount','$100 (Refundable)');row('Payment Method',d.paymentMethod);
 
   const pages=doc.internal.getNumberOfPages();
   for(let i=1;i<=pages;i++){doc.setPage(i);doc.setFillColor(...dark);doc.rect(0,doc.internal.pageSize.getHeight()-28,W,28,'F');doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(180,175,165);doc.text('© 2025 Nest Seekers International · New York City',W/2,doc.internal.pageSize.getHeight()-10,{align:'center'});doc.text(`Page ${i} of ${pages}`,W-40,doc.internal.pageSize.getHeight()-10,{align:'right'});}
@@ -935,7 +935,7 @@ Ever Evicted: ${d.evicted} | In Debt: ${d.inDebt}
 Prev Landlord: ${d.prevLandlord||'—'}
 Notes: ${d.notes||'—'}
 
-APPLICATION FEE: $50 Refundable | Payment: ${d.paymentMethod}
+APPLICATION FEE: $100 Refundable | Payment: ${d.paymentMethod}
   `.trim();
 
   try {
