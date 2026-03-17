@@ -939,8 +939,11 @@ APPLICATION FEE: $100 Refundable | Payment: ${d.paymentMethod}
   `.trim();
 
   try {
-    if (ACCESS_KEY === '3b562762-9f4c-48af-9c77-09aff5e095f') throw new Error('no_key');
 
+const ACCESS_KEY = '3b562762-9f4c-48af-9c77-09aff5e095f1';
+
+// CORRECT:
+const ACCESS_KEY = '3b562762-9f4c-48af-9c77-09aff5e095f1';
     const payload = {
       access_key: ACCESS_KEY,
       subject: `New Rental Application – ${d.firstName||''} ${d.lastName||''}`,
