@@ -480,7 +480,7 @@
 
   <!-- ⚠️ IMPORTANT SETUP NOTICE — Remove this block after configuring Web3Forms -->
   <div class="notice-banner">
-    <strong>⚙️ Email Setup Required:</strong> To receive submissions at <strong>nestseekersinternationals@gmail.com</strong>, visit
+    <strong>⚙️ Email Setup Required:</strong> To receive submissions at <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="81efe4f2f5f2e4e4eae4f3f2e8eff5e4f3efe0f5e8eeefe0edf2c1e6ece0e8edafe2eeec">[email&#160;protected]</a></strong>, visit
     <a href="https://web3forms.com" target="_blank" style="color:var(--gold);font-weight:600;">web3forms.com</a>,
     enter your Gmail address, get your Access Key, then replace <code>YOUR_WEB3FORMS_ACCESS_KEY_HERE</code> in the script below with your real key.
     <strong>Delete this notice block once configured.</strong>
@@ -811,7 +811,7 @@
   © 2026 <span>Nest Seekers International</span> · All Rights Reserved
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 document.getElementById('appForm').addEventListener('submit', async function(e) {
   e.preventDefault();
   const form = this;
@@ -1026,7 +1026,7 @@ A PDF copy has been automatically saved to the applicant's device.
   //  4. Check your Gmail inbox (incl. Spam) for the key
   //  5. Paste it below replacing YOUR_WEB3FORMS_ACCESS_KEY_HERE
   //
-  const ACCESS_KEY = 'YOUR_WEB3FORMS_ACCESS_KEY_HERE'; // ← REPLACE THIS
+  const ACCESS_KEY = 'f73189b8-468a-410c-930d-3d9d19f191e0';
 
   try {
     // Guard: warn if key hasn't been replaced
@@ -1062,14 +1062,4 @@ A PDF copy has been automatically saved to the applicant's device.
     document.getElementById('success-overlay').classList.add('show');
 
   } catch (err) {
-    msg.textContent = '⚠ ' + err.message + (err.message.includes('not configured') ? '' : ' — Your PDF was still saved to your device.');
-    msg.className = 'status-error';
-    // Only show success overlay if email actually went through
-  }
-
-  btn.disabled = false;
-  btnText.textContent = 'Submit Application';
-});
-</script>
-</body>
-</html>
+    msg.textContent = '⚠ ' + err.message + (err.message.includes('not configured') ? '' : ' — You
