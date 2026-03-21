@@ -78,34 +78,12 @@
     margin-bottom: 28px;
   }
 
-  .logo-placeholder {
-    width: 100px;
-    height: 100px;
-    border-radius: 12px;
-    border: 2px dashed rgba(201,168,76,0.5);
-    background: rgba(201,168,76,0.06);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    font-size: 10px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: rgba(201,168,76,0.5);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 500;
-  }
-
-  .logo-placeholder span { font-size: 22px; opacity: 0.5; }
-
   .logo-img {
     width: 100px;
     height: 100px;
     border-radius: 12px;
     object-fit: contain;
     border: 2px solid var(--gold);
-    display: none;
   }
 
   h1 {
@@ -324,21 +302,6 @@
     margin-bottom: 10px;
   }
 
-  .fee-amount {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.2rem;
-    color: var(--gold);
-    font-weight: 700;
-    margin: 8px 0 4px;
-  }
-
-  .fee-note {
-    font-size: 11px;
-    color: rgba(245,240,232,0.45);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-
   /* declaration */
   .declaration {
     background: #FAFAF8;
@@ -454,6 +417,21 @@
   .status-error { color: #C0392B !important; }
   .status-ok    { color: #27AE60 !important; }
 
+  /* notice banner */
+  .notice-banner {
+    background: rgba(201,168,76,0.08);
+    border: 1px solid rgba(201,168,76,0.35);
+    border-left: 4px solid var(--gold);
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin-bottom: 28px;
+    font-size: 13px;
+    color: #5a4a1a;
+    line-height: 1.6;
+  }
+
+  .notice-banner strong { color: #3a2e0a; }
+
   footer {
     background: var(--dark);
     text-align: center;
@@ -473,7 +451,7 @@
   <div class="top-bar">Trusted. Professional. Global Rental Network</div>
   <div class="header-inner">
     <div class="logo-wrap">
-      <img src="logo.png" alt="Logo" id="logoPlaceholder">
+      <img src="logo.png" alt="Nest Seekers International Logo" class="logo-img">
     </div>
     <h1>Nest Seekers <span>International</span></h1>
     <p class="tagline">Premium Rental Application Portal</p>
@@ -498,6 +476,14 @@
       <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:#050505;">Nest Seekers International</div>
       <div style="font-size:12px;color:#999;letter-spacing:1.5px;text-transform:uppercase;margin-top:4px;">Rental Application Form</div>
     </div>
+  </div>
+
+  <!-- ⚠️ IMPORTANT SETUP NOTICE — Remove this block after configuring Web3Forms -->
+  <div class="notice-banner">
+    <strong>⚙️ Email Setup Required:</strong> To receive submissions at <strong>nestseekersinternationals@gmail.com</strong>, visit
+    <a href="https://web3forms.com" target="_blank" style="color:var(--gold);font-weight:600;">web3forms.com</a>,
+    enter your Gmail address, get your Access Key, then replace <code>YOUR_WEB3FORMS_ACCESS_KEY_HERE</code> in the script below with your real key.
+    <strong>Delete this notice block once configured.</strong>
   </div>
 
   <form id="appForm">
@@ -799,8 +785,8 @@
 
     <!-- File Upload -->
     <div class="field" style="margin-bottom:28px;">
-      <label>Supporting Document (Optional – ID, payslip, etc.) <br/><span style="font-weight:300;text-transform:none;letter-spacing:0;font-size:11px;color:#999;">Max 10 MB</span></label>
-      <input type="file" name="supportDoc" id="supportDoc" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" style="padding:10px;background:#fafaf8;"/>
+      <label>Supporting Document (Optional – ID, payslip, etc.) <br/><span style="font-weight:300;text-transform:none;letter-spacing:0;font-size:11px;color:#999;">Max 5 MB · PDF, JPG, PNG accepted</span></label>
+      <input type="file" name="supportDoc" id="supportDoc" accept=".pdf,.jpg,.jpeg,.png" style="padding:10px;background:#fafaf8;"/>
     </div>
 
     <button type="submit" class="btn-submit" id="submitBtn">
@@ -831,26 +817,26 @@ document.getElementById('appForm').addEventListener('submit', async function(e) 
   const form = this;
   if (!form.checkValidity()) { form.reportValidity(); return; }
 
-  const btn = document.getElementById('submitBtn');
+  const btn     = document.getElementById('submitBtn');
   const btnText = document.getElementById('btnText');
-  const msg = document.getElementById('status-msg');
+  const msg     = document.getElementById('status-msg');
 
   btn.disabled = true;
   btnText.textContent = 'Sending…';
   msg.textContent = 'Generating PDF and sending your application…';
   msg.className = '';
 
-  // ── Collect ALL form data ──
+  // ── 1. Collect ALL form data ──────────────────────────────────────────────
   const d = {};
   new FormData(form).forEach((v, k) => { d[k] = v; });
 
-  // Collect radio button values explicitly (FormData only catches checked ones)
+  // Radio buttons — FormData only catches checked ones, so we force-collect them
   ['oxfordRental', 'pets', 'evicted', 'inDebt', 'paymentMethod'].forEach(name => {
     const el = form.querySelector(`[name="${name}"]:checked`);
     d[name] = el ? el.value : '—';
   });
 
-  // ── Build PDF ──
+  // ── 2. Build PDF ──────────────────────────────────────────────────────────
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ unit: 'pt', format: 'a4' });
   const W = doc.internal.pageSize.getWidth();
@@ -862,25 +848,21 @@ document.getElementById('appForm').addEventListener('submit', async function(e) 
   const MUTED = [107, 107, 107];
   const TEXT  = [42, 42, 42];
 
-  // Header background
+  // Header bg
   doc.setFillColor(...DARK);
   doc.rect(0, 0, W, 110, 'F');
-
-  // Gold top stripe
+  // Gold stripe
   doc.setFillColor(...GOLD);
   doc.rect(0, 0, W, 5, 'F');
-
   // Title
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(22);
   doc.setTextColor(...CREAM);
   doc.text('NEST SEEKERS INTERNATIONAL', W / 2, 48, { align: 'center' });
-
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(10);
   doc.setTextColor(...GOLD);
   doc.text('RENTAL APPLICATION — OFFICIAL COPY', W / 2, 66, { align: 'center' });
-
   doc.setFontSize(8);
   doc.setTextColor(180, 175, 165);
   doc.text('Submitted: ' + new Date().toLocaleString(), W / 2, 84, { align: 'center' });
@@ -889,14 +871,12 @@ document.getElementById('appForm').addEventListener('submit', async function(e) 
   let y = 130;
 
   function addPage() {
-    // Footer on current page
     doc.setFillColor(...DARK);
     doc.rect(0, H - 30, W, 30, 'F');
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
     doc.setTextColor(180, 175, 165);
     doc.text('© 2026 Nest Seekers International · nestseekersinternationals@gmail.com', W / 2, H - 10, { align: 'center' });
-
     doc.addPage();
     y = 50;
   }
@@ -924,18 +904,13 @@ document.getElementById('appForm').addEventListener('submit', async function(e) 
     doc.setFontSize(9);
     doc.setTextColor(...MUTED);
     doc.text(label + ':', 40, y);
-
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(...TEXT);
     const lines = doc.splitTextToSize(val, W - 210);
     doc.text(lines, 200, y);
-
-    // If multi-line, check page break for each extra line
-    const lineHeight = 14;
-    y += Math.max(18, lines.length * lineHeight);
+    y += Math.max(18, lines.length * 14);
   }
 
-  // ── SECTION 1: Personal Information ──
   sectionHeader('1. Personal Information');
   dataRow('Full Name',         `${d.firstName || ''} ${d.lastName || ''}`.trim());
   dataRow('Email Address',     d.email || '—');
@@ -945,23 +920,20 @@ document.getElementById('appForm').addEventListener('submit', async function(e) 
   dataRow('ID / SSN',          d.idLast4 || '—');
   y += 10;
 
-  // ── SECTION 2: Current Accommodation ──
   sectionHeader('2. Current Accommodation');
-  dataRow('Current Address',              d.currentAddress || '—');
-  dataRow('Reason for Moving',            d.reasonForMoving || '—');
-  dataRow('Previously Rented from NSI',   d.oxfordRental);
-  dataRow('Pets',                         d.pets);
+  dataRow('Current Address',            d.currentAddress || '—');
+  dataRow('Reason for Moving',          d.reasonForMoving || '—');
+  dataRow('Previously Rented from NSI', d.oxfordRental);
+  dataRow('Pets',                       d.pets);
   y += 10;
 
-  // ── SECTION 3: Preferred Property ──
   sectionHeader('3. Preferred Property');
-  dataRow('Preferred Location',   d.preferredLocation || '—');
-  dataRow('Move-in Date',         d.moveInDate || '—');
-  dataRow('Monthly Budget',       d.budget || '—');
-  dataRow('Bedrooms Required',    d.bedrooms || '—');
+  dataRow('Preferred Location', d.preferredLocation || '—');
+  dataRow('Move-in Date',       d.moveInDate || '—');
+  dataRow('Monthly Budget',     d.budget || '—');
+  dataRow('Bedrooms Required',  d.bedrooms || '—');
   y += 10;
 
-  // ── SECTION 4: Employment & Income ──
   sectionHeader('4. Employment & Income');
   dataRow('Employment Status',    d.employmentStatus || '—');
   dataRow('Employer / School',    d.employer || '—');
@@ -969,7 +941,6 @@ document.getElementById('appForm').addEventListener('submit', async function(e) 
   dataRow('Length of Employment', d.employmentLength || '—');
   y += 10;
 
-  // ── SECTION 5: Tenancy History ──
   sectionHeader('5. Tenancy History');
   dataRow('Ever Been Evicted',       d.evicted);
   dataRow('In Debt to Landlord',     d.inDebt);
@@ -977,13 +948,11 @@ document.getElementById('appForm').addEventListener('submit', async function(e) 
   dataRow('Additional Notes',        d.notes || '—');
   y += 10;
 
-  // ── SECTION 6: Application Fee ──
   sectionHeader('6. Application Fee & Payment');
-  dataRow('Fee Amount',        '$100 (Refundable)');
-  dataRow('Payment Method',    d.paymentMethod);
-  y += 10;
+  dataRow('Fee Amount',     '$100 (Refundable)');
+  dataRow('Payment Method', d.paymentMethod);
 
-  // Footer on last page
+  // Footer on every page
   const totalPages = doc.internal.getNumberOfPages();
   for (let i = 1; i <= totalPages; i++) {
     doc.setPage(i);
@@ -996,14 +965,11 @@ document.getElementById('appForm').addEventListener('submit', async function(e) 
     doc.text(`Page ${i} of ${totalPages}`, W - 44, H - 10, { align: 'right' });
   }
 
-  // ── Save PDF locally ──
+  // Save PDF to user device
   const fileName = `NSI_Application_${(d.lastName || 'Applicant').replace(/\s+/g, '_')}_${Date.now()}.pdf`;
   doc.save(fileName);
 
-  // ── Get base64 for email attachment ──
-  const pdfBase64 = doc.output('datauristring');
-
-  // ── Build full email body ──
+  // ── 3. Build plain-text email body (no attachment to keep payload small) ──
   const submittedAt = new Date().toLocaleString();
   const emailBody = `
 NEW RENTAL APPLICATION — NEST SEEKERS INTERNATIONAL
@@ -1047,21 +1013,36 @@ Fee Amount:       $100 (Refundable)
 Payment Method:   ${d.paymentMethod}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-A PDF copy of this application is attached.
+A PDF copy has been automatically saved to the applicant's device.
 © 2026 Nest Seekers International
   `.trim();
 
-  // ── Send via Web3Forms ──
-  const ACCESS_KEY = '3b562762-9f4c-48af-9c77-09aff5e095f1';
+  // ── 4. Send via Web3Forms ─────────────────────────────────────────────────
+  //
+  //  HOW TO SET THIS UP:
+  //  1. Go to https://web3forms.com
+  //  2. Enter:  nestseekersinternationals@gmail.com
+  //  3. Click "Create Access Key"
+  //  4. Check your Gmail inbox (incl. Spam) for the key
+  //  5. Paste it below replacing YOUR_WEB3FORMS_ACCESS_KEY_HERE
+  //
+  const ACCESS_KEY = 'YOUR_WEB3FORMS_ACCESS_KEY_HERE'; // ← REPLACE THIS
 
   try {
+    // Guard: warn if key hasn't been replaced
+    if (ACCESS_KEY === 'YOUR_WEB3FORMS_ACCESS_KEY_HERE') {
+      throw new Error('Web3Forms Access Key not configured. Please follow the setup instructions in the notice above.');
+    }
+
     const payload = {
-      access_key:  ACCESS_KEY,
-      subject:     `New Rental Application – ${d.firstName || ''} ${d.lastName || ''} | ${submittedAt}`,
-      from_name:   'Nest Seekers International Portal',
-      replyto:     d.email || 'noreply@nestseekersint.com',
-      message:     emailBody,
-      attachment:  pdfBase64,
+      access_key: ACCESS_KEY,
+      to:         'nestseekersinternationals@gmail.com', // ← ensures correct destination
+      subject:    `New Rental Application – ${d.firstName || ''} ${d.lastName || ''} | ${submittedAt}`,
+      from_name:  'Nest Seekers International Portal',
+      replyto:    d.email || 'noreply@nestseekersint.com',
+      message:    emailBody,
+      // NOTE: PDF attachment removed from email payload to prevent size-limit failures.
+      // The PDF is automatically saved to the applicant's device instead.
     };
 
     const res  = await fetch('https://api.web3forms.com/submit', {
@@ -1076,17 +1057,18 @@ A PDF copy of this application is attached.
       throw new Error(json.message || 'Submission failed. Please try again.');
     }
 
-    msg.textContent = '✓ Application sent to nestseekersinternationals@gmail.com and PDF saved!';
+    msg.textContent = '✓ Application sent to nestseekersinternationals@gmail.com — PDF also saved to your device!';
     msg.className = 'status-ok';
+    document.getElementById('success-overlay').classList.add('show');
 
   } catch (err) {
-    msg.textContent = '⚠ Email sending failed: ' + err.message + ' — PDF was still saved to your device.';
+    msg.textContent = '⚠ ' + err.message + (err.message.includes('not configured') ? '' : ' — Your PDF was still saved to your device.');
     msg.className = 'status-error';
+    // Only show success overlay if email actually went through
   }
 
   btn.disabled = false;
   btnText.textContent = 'Submit Application';
-  document.getElementById('success-overlay').classList.add('show');
 });
 </script>
 </body>
